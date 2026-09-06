@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            /* Se usa tu imagen, se hace pequeña y se repite por toda la pantalla */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('./assets/img/logo.jpeg'); 
+            background-size: 150px; 
+            background-position: center; 
+            background-attachment: fixed; 
+            background-repeat: repeat; /* Repite la imagen como un mosaico */
+            
+            /* Esto le da la opacidad media para que se vea como marca de agua suave */
+            background-color: rgba(255, 255, 255, 0.85); 
+            background-blend-mode: lighten; 
+            
+            padding: 20px; 
+            color: #333; 
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        
+        .card { 
+            background: rgba(255, 255, 255, 0.95); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1); 
+            text-align: center; 
+            text-decoration: none; 
+            color: #333; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            backdrop-filter: blur(4px);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .card img { width: 100%; height: 180px; object-fit: cover; background: #eee; }
+        .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        
+        .card h3 { margin: 5px 0 8px; font-size: 1.15rem; color: #111; }
+        .caracteristicas-text { font-size: 0.85rem; color: #555; margin: 8px 0; text-align: left; line-height: 1.3; }
+        
+        .precio-box { margin: 10px 0; }
+        .precio-ref { text-decoration: line-through; color: #888; font-size: 0.85rem; margin-right: 5px; }
+        .precio-out { color: #d9534f; font-weight: bold; font-size: 1.2rem; }
+        
+        .top-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        
+        .btn-main { background: #0056b3; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; }
+        
+        /* Modificación del botón de Inicio */
+        .btn-home-canva { 
+            background: #4d82bc; /* Nuevo color azul */
+            margin-right: auto;  /* Esto empuja el botón al extremo izquierdo */
+        } 
+        
+        .btn-catalog { background: #4a5568; } 
+        
+        .btn-wa { background: #25D366; color: white; padding: 10px; border-radius: 6px; text-decoration: none; display: block; margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
+        
+        .extra-links { display: flex; gap: 6px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+        .btn-ext { font-size: 0.75rem; padding: 6px 10px; border-radius: 4px; text-decoration: none; font-weight: bold; display: inline-block; }
+        .btn-brand { background: #4a5568; color: white; }
+        .btn-canva { background: #00c4cc; color: white; }
+
+        h1 { text-align: center; margin-bottom: 15px; color: #111; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+
+        .search-container { display: flex; justify-content: center; margin-bottom: 30px; }
+        .search-container form { display: flex; width: 100%; max-width: 600px; gap: 10px; }
+        .search-input { flex-grow: 1; padding: 12px 15px; border: 2px solid #ccc; border-radius: 6px; font-size: 1rem; outline: none; transition: border-color 0.2s; background: rgba(255,255,255,0.9); }
+        .search-input:focus { border-color: #0056b3; }
+        .search-btn { background: #0056b3; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: background 0.2s; }
+        .search-btn:hover { background: #004494; }
+        
+        .cat-header { grid-column: 1 / -1; margin-top: 20px; margin-bottom: 5px; border-bottom: 2px solid #0056b3; padding-bottom: 8px; color: #0056b3; font-size: 1.5rem; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="top-nav">
+            <!-- Cambio de texto a "Inicio" -->
+            <a href="index.html" class="btn-main btn-home-canva">🏠 Inicio</a>
+            <a href="catalogo.html" id="btn-home-catalog" class="btn-main btn-catalog" style="display:none;">📦 Catálogo Principal</a>
+            <a href="#" id="btn-back" class="btn-main" style="display:none;">← Volver</a>
+        </div>
+
+        <h1 id="titulo">Algo que te sorprende, siempre!</h1>
+
+        <div class="search-container">
+            <form id="search-form">
+                <input type="text" id="search-input" class="search-input" placeholder="Buscar producto o característica..." autocomplete="off">
+                <button type="submit" class="search-btn">🔍 Buscar</button>
+            </form>
+        </div>
+
+        <div id="contenedor" class="grid">Cargando catálogo...</div>
+    </div>
+
+    <script>
+        const WA_NUMERO = "593964230521"; 
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/168Qg4rnF4Kjj0Y8RDKzQYov4ek3t0vrtarHTcc9qVxo/export?format=csv&gid=0";
+
+        // ==========================================
+        // CATEGORÍAS ACTUALIZADAS
+        // ==========================================
+        const imagenesCategorias = {
+            "Hogar & Oficina": "./assets/img/salaofi.jpg",
+            "Moda & Calzado": "./assets/img/vestimenta.jpg", 
+            "Automotriz": "./assets/img/automotriz.jpg",
+            "Juegos & Coleccionables": "./assets/img/juegocole.jpg", 
+            "Audio & Video": "./assets/img/tecno.PNG",
+            "Cuidado Personal & Bienestar": "./assets/img/productos.jpg", 
+            "Deportes": "./assets/img/deportes.jpg", 
+            "Bebidas & Licores": "./assets/img/bebidas.jpg" 
+        };
+
+        const imagenesSubcategorias = {
+            "Modulares": "./assets/img/modulares.jpg",
+            "Decoración": "./assets/img/deco.jpg",
+            "Iluminación": "./assets/img/luz.jpg",
+            "Para Ellas": "./assets/img/ellas.jpg",
+            "Para Ellos": "./assets/img/ellos.jpg",
+            "Para los Peques": "./assets/img/pekes.jpg",
+            "Para mis Mascotas": "./assets/img/mascotas.jpg",
+            "Deportiva": "./assets/img/deporte.jpg",
+            "Coleccionable & Vintage": "./assets/img/coleccion.jpg",
+            "Calzado": "./assets/img/shoes.jpg",
+            "Accesorios": "./assets/img/accesorios.jpg",
+            "Portátiles": "./assets/img/porta.jpg",
+            "Sistemas Fijos": "./assets/img/fijo.jpg",
+            "Mantenimiento & Cuidado": "./assets/img/m&cuidado.jpg",
+            "Equipamiento & Emergencia": "./assets/img/e&e.jpg",
+            "Protección & Confort": "./assets/img/confort.jpg",
+            "Eventos": "./assets/img/eventos.jpg",
+            "Bebidas Alcohólicas": "./assets/img/alcohol.jpg",
+            "Juegos": "./assets/img/toys.jpg",
+            "Make-up": "./assets/img/make-up.jpg",
+            "Personal Care": "./assets/img/care.jpg",
+            "Wellness (Nutrición)": "./assets/img/wellness.jpg"
+        };
+
+        const normalizeText = (text) => {
+            if (!text) return "";
+            return text.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        };
+
+        // Búsqueda inteligente de imágenes tolerante a tildes y mayúsculas
+        function getImagenCategoria(catName) {
+            if (imagenesCategorias[catName]) return imagenesCategorias[catName];
+            const norm = normalizeText(catName);
+            for (const key in imagenesCategorias) {
+                if (normalizeText(key) === norm) return imagenesCategorias[key];
+            }
+            return `https://via.placeholder.com/280x180?text=${encodeURIComponent(catName)}`;
+        }
+
+        function getImagenSubcategoria(subName) {
+            if (imagenesSubcategorias[subName]) return imagenesSubcategorias[subName];
+            const norm = normalizeText(subName);
+            for (const key in imagenesSubcategorias) {
+                if (normalizeText(key) === norm) return imagenesSubcategorias[key];
+            }
+            return `https://via.placeholder.com/280x180?text=${encodeURIComponent(subName)}`;
+        }
+
+        function formatDisplaySpecs(text) {
+            if (!text) return '';
+            let displaySpecs = text;
+            const tagIndex = displaySpecs.toUpperCase().indexOf("TAGS:");
+            if (tagIndex !== -1) {
+                displaySpecs = displaySpecs.substring(0, tagIndex).trim();
+            }
+            return displaySpecs.replace(/\n/g, '<br>');
+        }
+
+        function parseCSV(text) {
+            const result = [];
+            let rows = [];
+            let inQuotes = false;
+            let currentRow = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                    currentRow += char;
+                } else if (char === '\n' && !inQuotes) {
+                    rows.push(currentRow);
+                    currentRow = '';
+                } else {
+                    currentRow += char;
+                }
+            }
+            if (currentRow.trim().length > 0) rows.push(currentRow);
+            if (rows.length === 0) return result;
+
+            const parseRow = (row) => {
+                let cols = [];
+                let inQuotes = false;
+                let col = '';
+                for (let i = 0; i < row.length; i++) {
+                    let char = row[i];
+                    if (char === '"') {
+                        if (inQuotes && row[i+1] === '"') { col += '"'; i++; } 
+                        else { inQuotes = !inQuotes; }
+                    } else if (char === ',' && !inQuotes) {
+                        cols.push(col.trim()); col = '';
+                    } else { col += char; }
+                }
+                cols.push(col.trim());
+                return cols;
+            };
+
+            // Limpieza de caracteres invisibles (BOM) en las cabeceras
+            const headers = parseRow(rows[0]).map(h => h.replace(/^\ufeff/, '').replace(/^"|"$/g, '').toLowerCase().trim());
+
+            for (let i = 1; i < rows.length; i++) {
+                const cols = parseRow(rows[i]);
+                const obj = {};
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j]] = cols[j] ? cols[j].replace(/^"|"$/g, '') : '';
+                }
+                obj.rutas_array = obj.rutas ? obj.rutas.split(',').map(r => r.trim()).filter(r => r.length > 0) : [];
+                
+                // Manejo de stock flexible (evita bloqueos si la celda está vacía)
+                let stockVal = obj.stock.toString().toLowerCase().trim();
+                if (stockVal === "" || stockVal === "si" || stockVal === "disponible") {
+                    obj.stock = 1;
+                } else if (stockVal === "no" || stockVal === "0" || stockVal === "agotado") {
+                    obj.stock = 0;
+                } else {
+                    obj.stock = Number(obj.stock) || 0;
+                }
+
+                obj.precio_referencial = Number(obj.precio_referencial) || 0;
+                obj.precio_outlet = Number(obj.precio_outlet) || 0;
+                result.push(obj);
+            }
+            return result;
+        }
+
+        // Validación de rutas insensible a mayúsculas y tildes
+        function perteneceARuta(producto, categoria, subcategoria) {
+            return producto.rutas_array.some(ruta => {
+                const partes = ruta.split('>').map(p => p.trim());
+                const catPart = normalizeText(partes[0]);
+                const targetCat = normalizeText(categoria);
+                if (subcategoria) {
+                    const subPart = normalizeText(partes[1]);
+                    const targetSub = normalizeText(subcategoria);
+                    return catPart === targetCat && subPart === targetSub;
+                }
+                return catPart === targetCat;
+            });
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const catFiltro = params.get('cat');
+        const subFiltro = params.get('sub');
+        const searchFiltro = params.get('q'); 
+
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            const val = document.getElementById('search-input').value.trim();
+            if(val !== '') {
+                window.location.href = `?q=${encodeURIComponent(val)}`;
+            } else {
+                window.location.href = window.location.pathname;
+            }
+        });
+
+        if (searchFiltro) {
+            document.getElementById('search-input').value = searchFiltro;
+        }
+
+        fetch(CSV_URL + "&nocache=" + new Date().getTime())
+            .then(res => res.text())
+            .then(csvText => {
+                const productosActivos = parseCSV(csvText).filter(p => p.stock > 0);
+                const cont = document.getElementById('contenedor');
+                const tit = document.getElementById('titulo');
+                
+                const btnBack = document.getElementById('btn-back');
+                const btnHomeCatalog = document.getElementById('btn-home-catalog');
+
+                cont.innerHTML = '';
+
+                // BÚSQUEDA
+                if (searchFiltro) {
+                    tit.innerText = `Resultados para: "${searchFiltro}"`;
+                    btnHomeCatalog.style.display = "inline-block";
+                    
+                    const query = normalizeText(searchFiltro);
+                    
+                    const productosFiltrados = productosActivos.filter(p => {
+                        const nombreProd = normalizeText(p.nombre);
+                        const caracProd = normalizeText(p.caracteristicas);
+                        const regex = new RegExp(`\\b${query}\\b`, 'i');
+                        return regex.test(nombreProd) || regex.test(caracProd);
+                    });
+
+                    if (productosFiltrados.length === 0) {
+                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No se encontraron productos con esos términos.</p>`;
+                    } else {
+                        productosFiltrados.sort((a, b) => {
+                            const catA = a.rutas_array.length > 0 ? a.rutas_array[0].split('>')[0].trim() : "Otros";
+                            const catB = b.rutas_array.length > 0 ? b.rutas_array[0].split('>')[0].trim() : "Otros";
+                            return catA.localeCompare(catB);
+                        });
+
+                        let currentCategory = "";
+
+                        productosFiltrados.forEach(p => {
+                            const catP = p.rutas_array.length > 0 ? p.rutas_array[0].split('>')[0].trim() : "Otros";
+                            if (catP !== currentCategory) {
+                                cont.innerHTML += `<h2 class="cat-header">📁 ${catP}</h2>`;
+                                currentCategory = catP;
+                            }
+
+                            const htmlSpecs = p.caracteristicas ? `<p class="caracteristicas-text">${formatDisplaySpecs(p.caracteristicas)}</p>` : '';
+                            const btnOficial = p.url_oficial ? `<a href="${p.url_oficial}" target="_blank" class="btn-ext btn-brand">🌐 Ref/Especificaciones</a>` : '';
+                            const btnCanva = p.url_canva ? `<a href="${p.url_canva}" target="_blank" class="btn-ext btn-canva">🎬 Conoce más!</a>` : '';
+
+                            cont.innerHTML += `
+                                <div class="card">
+                                    <img src="${p.imagen_url}" onerror="this.src='https://via.placeholder.com/280x180?text=Sin+Imagen'">
+                                    <div class="card-body">
+                                        <div>
+                                            <h3>${p.nombre}</h3>
+                                            ${htmlSpecs}
+                                        </div>
+                                        <div>
+                                            <div class="precio-box">
+                                                <span class="precio-ref">Precio: $${p.precio_referencial.toFixed(0)}</span>
+                                                <span class="precio-out">Outlet: $${p.precio_outlet.toFixed(0)}</span>
+                                            </div>
+                                            <div class="extra-links">
+                                                ${btnOficial}
+                                                ${btnCanva}
+                                            </div>
+                                            <a href="https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(p.mensaje_compra)}" class="btn-wa" target="_blank">Lo quiero!</a>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        });
+                    }
+
+                // PRODUCTOS DE UNA SUBCATEGORÍA
+                } else if (catFiltro && subFiltro) {
+                    tit.innerText = `${catFiltro} / ${subFiltro}`;
+                    btnHomeCatalog.style.display = "inline-block";
+                    btnBack.style.display = "inline-block";
+                    btnBack.href = `?cat=${encodeURIComponent(catFiltro)}`; 
+                    btnBack.innerText = "← Volver a " + catFiltro;
+                    
+                    const productosFiltrados = productosActivos.filter(p => perteneceARuta(p, catFiltro, subFiltro));
+
+                    if (productosFiltrados.length === 0) {
+                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay productos disponibles en esta sección actualmente.</p>`;
+                    } else {
+                        productosFiltrados.forEach(p => {
+                            const htmlSpecs = p.caracteristicas ? `<p class="caracteristicas-text">${formatDisplaySpecs(p.caracteristicas)}</p>` : '';
+                            const btnOficial = p.url_oficial ? `<a href="${p.url_oficial}" target="_blank" class="btn-ext btn-brand">🌐 Ref/Especificaciones</a>` : '';
+                            const btnCanva = p.url_canva ? `<a href="${p.url_canva}" target="_blank" class="btn-ext btn-canva">🎬 Conoce más!</a>` : '';
+
+                            cont.innerHTML += `
+                                <div class="card">
+                                    <img src="${p.imagen_url}" onerror="this.src='https://via.placeholder.com/280x180?text=Sin+Imagen'">
+                                    <div class="card-body">
+                                        <div>
+                                            <h3>${p.nombre}</h3>
+                                            ${htmlSpecs}
+                                        </div>
+                                        <div>
+                                            <div class="precio-box">
+                                                <span class="precio-ref">Precio: $${p.precio_referencial.toFixed(0)}</span>
+                                                <span class="precio-out">Outlet: $${p.precio_outlet.toFixed(0)}</span>
+                                            </div>
+                                            <div class="extra-links">
+                                                ${btnOficial}
+                                                ${btnCanva}
+                                            </div>
+                                            <a href="https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(p.mensaje_compra)}" class="btn-wa" target="_blank">Lo quiero!</a>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        });
+                    }
+
+                // SUBCATEGORÍAS 
+                } else if (catFiltro) {
+                    tit.innerText = catFiltro;
+                    btnHomeCatalog.style.display = "inline-block";
+                    btnBack.style.display = "none";
+                    
+                    const subsDisponibles = new Map();
+                    productosActivos.forEach(p => {
+                        p.rutas_array.forEach(ruta => {
+                            const partes = ruta.split('>').map(x => x.trim());
+                            if (partes[0] && normalizeText(partes[0]) === normalizeText(catFiltro) && partes[1]) {
+                                const subOriginal = partes[1];
+                                const subNorm = normalizeText(subOriginal);
+                                if (!subsDisponibles.has(subNorm)) {
+                                    subsDisponibles.set(subNorm, subOriginal);
+                                }
+                            }
+                        });
+                    });
+
+                    if (subsDisponibles.size === 0) {
+                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay subcategorías con stock disponible.</p>`;
+                    } else {
+                        subsDisponibles.forEach(s => {
+                            const imgFija = getImagenSubcategoria(s);
+                            cont.innerHTML += `
+                                <a href="?cat=${encodeURIComponent(catFiltro)}&sub=${encodeURIComponent(s)}" class="card">
+                                    <img src="${imgFija}" onerror="this.src='https://via.placeholder.com/280x180?text=${encodeURIComponent(s)}'">
+                                    <div class="card-body">
+                                        <h3>${s}</h3>
+                                        <p style="color:#0056b3; font-weight:bold;">Ver productos →</p>
+                                    </div>
+                                </a>`;
+                        });
+                    }
+
+                // VISTA PRINCIPAL DE CATEGORÍAS 
+                } else {
+                    tit.innerText = "Algo que te sorprende, siempre!";
+                    btnHomeCatalog.style.display = "none";
+                    btnBack.style.display = "none";
+
+                    const categoriasDisponibles = new Map();
+                    productosActivos.forEach(p => {
+                        p.rutas_array.forEach(ruta => {
+                            const partes = ruta.split('>').map(x => x.trim());
+                            if (partes[0]) {
+                                const catOriginal = partes[0];
+                                const catNorm = normalizeText(catOriginal);
+                                if (!categoriasDisponibles.has(catNorm)) {
+                                    categoriasDisponibles.set(catNorm, catOriginal);
+                                }
+                            }
+                        });
+                    });
+
+                    if (categoriasDisponibles.size === 0) {
+                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay categorías con stock disponible.</p>`;
+                    } else {
+                        categoriasDisponibles.forEach(cat => {
+                            const imgFija = getImagenCategoria(cat);
+                            cont.innerHTML += `
+                                <a href="?cat=${encodeURIComponent(cat)}" class="card">
+                                    <img src="${imgFija}" onerror="this.src='https://via.placeholder.com/280x180?text=${encodeURIComponent(cat)}'">
+                                    <div class="card-body">
+                                        <h3>${cat}</h3>
+                                        <p style="color:#0056b3; font-weight:bold;">Ver subcategorías →</p>
+                                    </div>
+                                </a>`;
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                console.error("Error cargando el catálogo:", error);
+                document.getElementById('contenedor').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:red;">Hubo un error cargando los productos. Revisa la consola para más detalles.</p>`;
+            });
+    </script>
+</body>
+</html>
