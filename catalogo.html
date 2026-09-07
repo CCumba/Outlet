@@ -23,10 +23,17 @@
             min-height: 100vh;
             margin: 0;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Permite empujar el footer al fondo */
         }
 
-        .container { max-width: 1100px; margin: 0 auto; flex: 1; }
+        /* EL FIX ESTÁ AQUÍ: width: 100% asegura que haya espacio para las 3 columnas */
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            flex: 1; 
+            width: 100%; 
+        }
+        
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         
         .card { 
@@ -58,10 +65,9 @@
         
         .btn-main { background: #0056b3; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; }
         
-        /* Modificación del botón de Inicio */
         .btn-home-canva { 
-            background: #4d82bc; /* Nuevo color azul */
-            margin-right: auto;  /* Esto empuja el botón al extremo izquierdo */
+            background: #4d82bc; 
+            margin-right: auto;  
         } 
         
         .btn-catalog { background: #4a5568; } 
@@ -91,7 +97,7 @@
         .text-white { color: #ffffff; }
         .text-center { text-align: center; }
         .py-4 { padding: 1.5rem 0; }
-        .text-white-50 { color: rgba(255, 255, 255, 0.5); }
+        .text-white-50 { color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; }
         
         footer {
             margin: 40px -20px -20px -20px; /* Expande el footer de lado a lado ignorando el padding del body */
@@ -123,7 +129,7 @@
             height: 40px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid #4d82bc; /* Color azul de tu diseño principal */
+            border: 2px solid #4d82bc;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -161,7 +167,7 @@
 
     <!-- INICIO DEL FOOTER -->
     <footer class="bg-dark text-white text-center py-4">
-        <div class="container">
+        <div class="container" style="flex: none;"> <!-- flex: none para que el footer no interfiera -->
             <div class="hanna-footer-layout">
                 <span class="text-white-50">&copy; Desarrollado con enfoque smart & bootstrapped by</span>
                 
@@ -224,7 +230,6 @@
             return text.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
         };
 
-        // Búsqueda inteligente de imágenes tolerante a tildes y mayúsculas
         function getImagenCategoria(catName) {
             if (imagenesCategorias[catName]) return imagenesCategorias[catName];
             const norm = normalizeText(catName);
@@ -291,7 +296,6 @@
                 return cols;
             };
 
-            // Limpieza de caracteres invisibles (BOM) en las cabeceras
             const headers = parseRow(rows[0]).map(h => h.replace(/^\ufeff/, '').replace(/^"|"$/g, '').toLowerCase().trim());
 
             for (let i = 1; i < rows.length; i++) {
@@ -302,7 +306,6 @@
                 }
                 obj.rutas_array = obj.rutas ? obj.rutas.split(',').map(r => r.trim()).filter(r => r.length > 0) : [];
                 
-                // Manejo de stock flexible (evita bloqueos si la celda está vacía)
                 let stockVal = obj.stock.toString().toLowerCase().trim();
                 if (stockVal === "" || stockVal === "si" || stockVal === "disponible") {
                     obj.stock = 1;
@@ -319,7 +322,6 @@
             return result;
         }
 
-        // Validación de rutas insensible a mayúsculas y tildes
         function perteneceARuta(producto, categoria, subcategoria) {
             return producto.rutas_array.some(ruta => {
                 const partes = ruta.split('>').map(p => p.trim());
@@ -365,7 +367,6 @@
 
                 cont.innerHTML = '';
 
-                // BÚSQUEDA
                 if (searchFiltro) {
                     tit.innerText = `Resultados para: "${searchFiltro}"`;
                     btnHomeCatalog.style.display = "inline-block";
@@ -424,8 +425,6 @@
                                 </div>`;
                         });
                     }
-
-                // PRODUCTOS DE UNA SUBCATEGORÍA
                 } else if (catFiltro && subFiltro) {
                     tit.innerText = `${catFiltro} / ${subFiltro}`;
                     btnHomeCatalog.style.display = "inline-block";
@@ -466,8 +465,6 @@
                                 </div>`;
                         });
                     }
-
-                // SUBCATEGORÍAS 
                 } else if (catFiltro) {
                     tit.innerText = catFiltro;
                     btnHomeCatalog.style.display = "inline-block";
@@ -502,8 +499,6 @@
                                 </a>`;
                         });
                     }
-
-                // VISTA PRINCIPAL DE CATEGORÍAS 
                 } else {
                     tit.innerText = "Algo que te sorprende, siempre!";
                     btnHomeCatalog.style.display = "none";
