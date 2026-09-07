@@ -155,6 +155,47 @@
         }
 
         /* =========================================
+           ESTILOS PARA NUEVA SECCIÓN CONTACTO
+           ========================================= */
+        .contacto-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contacto-col {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .contacto-title {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .wa-link {
+            color: var(--accent-color);
+            font-weight: bold;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+        .wa-link:hover {
+            color: var(--text-color);
+        }
+
+        /* =========================================
            ESTILOS PARA NUEVO FOOTER Y LAYOUT HANNA
            ========================================= */
         .hanna-footer-layout {
@@ -194,17 +235,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        /* Enlace de WhatsApp tradicional */
-        .wa-link {
-            color: var(--accent-color);
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.3s;
-        }
-        .wa-link:hover {
-            color: var(--text-color);
         }
     </style>
 </head>
@@ -283,24 +313,41 @@
             </div>
         </section>
 
-        <section id="contacto" class="hero bg-white" style="text-align: center; justify-content: center;">
-            <div style="max-width: 600px; width: 100%;">
-                <a href="https://whatsapp.com/channel/0029Vb7a83z6buMK38Symx1m" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-                    <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 1rem; cursor: pointer;">CANAL DE WHATSAPP</h3>
-                </a>
+        <!-- SECCIÓN DE CONTACTO REORGANIZADA -->
+        <section id="contacto" class="hero bg-white">
+            <div class="contacto-container">
                 
-                <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                    <a href="https://whatsapp.com/channel/0029Vb7a83z6buMK38Symx1m" target="_blank" rel="noopener noreferrer">
-                        <img src="assets/img/qrcanal.jpg" alt="QR Canal WhatsApp" style="max-width: 220px; width: 100%; border-radius: 10px; border: 2px solid var(--accent-color); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <!-- Columna Izquierda: WhatsApp -->
+                <div class="contacto-col">
+                    <a href="https://whatsapp.com/channel/0029Vb7a83z6buMK38Symx1m" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                        <h3 class="contacto-title">CANAL DE WHATSAPP</h3>
                     </a>
+                    
+                    <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                        <a href="https://whatsapp.com/channel/0029Vb7a83z6buMK38Symx1m" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/img/qrcanal.jpg" alt="QR Canal WhatsApp" style="max-width: 220px; width: 100%; border-radius: 10px; border: 2px solid var(--accent-color); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        </a>
+                    </div>
+
+                    <p style="margin-bottom: 0.5rem; font-weight: bold; font-size: 1.1rem; color: #555;">¿Tienes dudas o quieres realizar un pedido?</p>
+                    <p>
+                        <a href="https://wa.me/593964230521" class="wa-link" target="_blank">
+                            Haz clic aquí para chatear por WhatsApp
+                        </a>
+                    </p>
                 </div>
 
-                <p style="margin-bottom: 0.5rem; font-weight: bold;">¿Tienes dudas o quieres realizar un pedido?</p>
-                <p>
-                    <a href="https://wa.me/593964230521" class="wa-link" target="_blank">
-                        Haz clic aquí para chatear por WhatsApp
-                    </a>
-                </p>
+                <!-- Columna Derecha: Ubicación y Atención -->
+                <div class="contacto-col" style="padding: 2rem; background-color: #f9f9f9; border-radius: 15px; border-left: 4px solid var(--accent-color);">
+                    <h3 class="contacto-title">UBICACIÓN Y ATENCIÓN</h3>
+                    <p style="font-size: 1.1rem; color: #555; text-align: justify; margin-bottom: 1rem;">
+                        Somos una tienda 100% virtual. Realizamos envíos seguros en Guayaquil y a nivel nacional.
+                    </p>
+                    <p style="font-size: 1.2rem; font-weight: bold; color: var(--accent-color);">
+                        ¡Contáctanos para coordinar tu entrega!
+                    </p>
+                </div>
+
             </div>
         </section>
     </main>
