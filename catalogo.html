@@ -22,9 +22,11 @@
             color: #333; 
             min-height: 100vh;
             margin: 0;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; flex: 1; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         
         .card { 
@@ -81,6 +83,58 @@
         .search-btn:hover { background: #004494; }
         
         .cat-header { grid-column: 1 / -1; margin-top: 20px; margin-bottom: 5px; border-bottom: 2px solid #0056b3; padding-bottom: 8px; color: #0056b3; font-size: 1.5rem; text-align: left; }
+
+        /* =========================================
+           ESTILOS PARA NUEVO FOOTER Y LAYOUT HANNA
+           ========================================= */
+        .bg-dark { background-color: #212529; }
+        .text-white { color: #ffffff; }
+        .text-center { text-align: center; }
+        .py-4 { padding: 1.5rem 0; }
+        .text-white-50 { color: rgba(255, 255, 255, 0.5); }
+        
+        footer {
+            margin: 40px -20px -20px -20px; /* Expande el footer de lado a lado ignorando el padding del body */
+        }
+
+        .hanna-footer-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hanna-link-block {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ffffff;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .hanna-link-block:hover {
+            opacity: 0.85;
+            color: #ffffff;
+        }
+
+        .hanna-circle-frame {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #4d82bc; /* Color azul de tu diseño principal */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+
+        .hanna-img-asset {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -104,6 +158,23 @@
 
         <div id="contenedor" class="grid">Cargando catálogo...</div>
     </div>
+
+    <!-- INICIO DEL FOOTER -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <div class="hanna-footer-layout">
+                <span class="text-white-50">&copy; Desarrollado con enfoque smart & bootstrapped by</span>
+                
+                <a href="https://www.linkedin.com/in/carla-cumba-1831a73b4" target="_blank" rel="noopener noreferrer" class="hanna-link-block" title="Visitar perfil de Carla Cumba en LinkedIn">
+                    <div class="hanna-circle-frame">
+                        <img src="assets/img/HANNAIT_1b.jpg" alt="🐾" class="hanna-img-asset">
+                    </div>
+                    <span>HANNA IT Solutions</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <!-- FIN DEL FOOTER -->
 
     <script>
         const WA_NUMERO = "593964230521"; 
