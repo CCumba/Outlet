@@ -7,26 +7,21 @@
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            /* Se usa tu imagen, se hace pequeña y se repite por toda la pantalla */
             background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('./assets/img/logo.jpeg'); 
             background-size: 150px; 
             background-position: center; 
             background-attachment: fixed; 
-            background-repeat: repeat; /* Repite la imagen como un mosaico */
-            
-            /* Esto le da la opacidad media para que se vea como marca de agua suave */
+            background-repeat: repeat; 
             background-color: rgba(255, 255, 255, 0.85); 
             background-blend-mode: lighten; 
-            
             padding: 20px; 
             color: #333; 
             min-height: 100vh;
             margin: 0;
             display: flex;
-            flex-direction: column; /* Permite empujar el footer al fondo */
+            flex-direction: column;
         }
 
-        /* EL FIX ESTÁ AQUÍ: width: 100% asegura que haya espacio para las 3 columnas */
         .container { 
             max-width: 1100px; 
             margin: 0 auto; 
@@ -64,14 +59,8 @@
         .top-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
         
         .btn-main { background: #0056b3; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; }
-        
-        .btn-home-canva { 
-            background: #4d82bc; 
-            margin-right: auto;  
-        } 
-        
+        .btn-home-canva { background: #4d82bc; margin-right: auto; } 
         .btn-catalog { background: #4a5568; } 
-        
         .btn-wa { background: #25D366; color: white; padding: 10px; border-radius: 6px; text-decoration: none; display: block; margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
         
         .extra-links { display: flex; gap: 6px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
@@ -82,8 +71,6 @@
         h1 { text-align: center; margin-bottom: 15px; color: #111; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
 
         .search-container { display: flex; justify-content: center; margin-bottom: 30px; }
-        
-        /* Ajuste: max-width aumentado a 700px y flex-wrap para que los botones se adapten en móviles */
         .search-container form { display: flex; width: 100%; max-width: 700px; gap: 10px; flex-wrap: wrap; justify-content: center; }
         .search-input { flex-grow: 1; padding: 12px 15px; border: 2px solid #ccc; border-radius: 6px; font-size: 1rem; outline: none; transition: border-color 0.2s; background: rgba(255,255,255,0.9); min-width: 200px; }
         .search-input:focus { border-color: #0056b3; }
@@ -91,70 +78,29 @@
         .search-btn { background: #0056b3; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: background 0.2s; }
         .search-btn:hover { background: #004494; }
         
-        /* ESTILO PARA EL NUEVO BOTÓN */
         .btn-all { background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: background 0.2s; white-space: nowrap; }
         .btn-all:hover { background: #5a6268; }
         
         .cat-header { grid-column: 1 / -1; margin-top: 20px; margin-bottom: 5px; border-bottom: 2px solid #0056b3; padding-bottom: 8px; color: #0056b3; font-size: 1.5rem; text-align: left; }
 
-        /* =========================================
-           ESTILOS PARA NUEVO FOOTER Y LAYOUT HANNA
-           ========================================= */
         .bg-dark { background-color: #212529; }
         .text-white { color: #ffffff; }
         .text-center { text-align: center; }
         .py-4 { padding: 1.5rem 0; }
         .text-white-50 { color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; }
         
-        footer {
-            margin: 40px -20px -20px -20px; /* Expande el footer de lado a lado ignorando el padding del body */
-        }
-
-        .hanna-footer-layout {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .hanna-link-block {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #ffffff;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .hanna-link-block:hover {
-            opacity: 0.85;
-            color: #ffffff;
-        }
-
-        .hanna-circle-frame {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #4d82bc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #fff;
-        }
-
-        .hanna-img-asset {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        footer { margin: 40px -20px -20px -20px; }
+        .hanna-footer-layout { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+        .hanna-link-block { display: inline-flex; align-items: center; gap: 0.75rem; color: #ffffff; text-decoration: none; transition: opacity 0.3s ease; }
+        .hanna-link-block:hover { opacity: 0.85; color: #ffffff; }
+        .hanna-circle-frame { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid #4d82bc; display: flex; align-items: center; justify-content: center; background-color: #fff; }
+        .hanna-img-asset { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="top-nav">
-            <!-- Cambio de texto a "Inicio" -->
             <a href="index.html" class="btn-main btn-home-canva">🏠 Inicio</a>
             <a href="catalogo.html" id="btn-home-catalog" class="btn-main btn-catalog" style="display:none;">📦 Catálogo Principal</a>
             <a href="#" id="btn-back" class="btn-main" style="display:none;">← Volver</a>
@@ -166,20 +112,18 @@
             <form id="search-form">
                 <input type="text" id="search-input" class="search-input" placeholder="Buscar producto o característica..." autocomplete="off">
                 <button type="submit" class="search-btn">🔍 Buscar</button>
-                <!-- BOTÓN DE TODOS LOS PRODUCTOS -->
-                <button type="button" class="btn-all" onclick="window.location.href=window.location.pathname">📋 Todos los productos</button>
+                <!-- AHORA APUNTA A ?all=true -->
+                <button type="button" class="btn-all" onclick="window.location.href='?all=true'">📋 Todos los productos</button>
             </form>
         </div>
 
         <div id="contenedor" class="grid">Cargando catálogo...</div>
     </div>
 
-    <!-- INICIO DEL FOOTER -->
     <footer class="bg-dark text-white text-center py-4">
-        <div class="container" style="flex: none;"> <!-- flex: none para que el footer no interfiera -->
+        <div class="container" style="flex: none;">
             <div class="hanna-footer-layout">
                 <span class="text-white-50">&copy; Desarrollado con enfoque smart & bootstrapped by</span>
-                
                 <a href="https://www.linkedin.com/in/carla-cumba-1831a73b4" target="_blank" rel="noopener noreferrer" class="hanna-link-block" title="Visitar perfil de Carla Cumba en LinkedIn">
                     <div class="hanna-circle-frame">
                         <img src="assets/img/HANNAIT_1b.jpg" alt="🐾" class="hanna-img-asset">
@@ -189,15 +133,11 @@
             </div>
         </div>
     </footer>
-    <!-- FIN DEL FOOTER -->
 
     <script>
         const WA_NUMERO = "593964230521"; 
         const CSV_URL = "https://docs.google.com/spreadsheets/d/168Qg4rnF4Kjj0Y8RDKzQYov4ek3t0vrtarHTcc9qVxo/export?format=csv&gid=0";
 
-        // ==========================================
-        // CATEGORÍAS ACTUALIZADAS
-        // ==========================================
         const imagenesCategorias = {
             "Hogar & Oficina": "./assets/img/salaofi.jpg",
             "Moda & Calzado": "./assets/img/vestimenta.jpg", 
@@ -345,26 +285,6 @@
             });
         }
 
-        const params = new URLSearchParams(window.location.search);
-        const catFiltro = params.get('cat');
-        const subFiltro = params.get('sub');
-        const searchFiltro = params.get('q'); 
-
-        document.getElementById('search-form').addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            const val = document.getElementById('search-input').value.trim();
-            if(val !== '') {
-                window.location.href = `?q=${encodeURIComponent(val)}`;
-            } else {
-                window.location.href = window.location.pathname;
-            }
-        });
-
-        if (searchFiltro) {
-            document.getElementById('search-input').value = searchFiltro;
-        }
-
-        // Función auxiliar para renderizar un producto para evitar repetir código (OPCIONAL/MEJORA)
         function generarHTMLProducto(p) {
             const htmlSpecs = p.caracteristicas ? `<p class="caracteristicas-text">${formatDisplaySpecs(p.caracteristicas)}</p>` : '';
             const btnOficial = p.url_oficial ? `<a href="${p.url_oficial}" target="_blank" class="btn-ext btn-brand">🌐 Ref/Especificaciones</a>` : '';
@@ -393,6 +313,27 @@
                 </div>`;
         }
 
+        // CAPTURA DE PARÁMETROS URL
+        const params = new URLSearchParams(window.location.search);
+        const catFiltro = params.get('cat');
+        const subFiltro = params.get('sub');
+        const searchFiltro = params.get('q'); 
+        const allFiltro = params.get('all'); // NUEVO FILTRO PARA TODOS LOS PRODUCTOS
+
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            const val = document.getElementById('search-input').value.trim();
+            if(val !== '') {
+                window.location.href = `?q=${encodeURIComponent(val)}`;
+            } else {
+                window.location.href = window.location.pathname;
+            }
+        });
+
+        if (searchFiltro) {
+            document.getElementById('search-input').value = searchFiltro;
+        }
+
         fetch(CSV_URL + "&nocache=" + new Date().getTime())
             .then(res => res.text())
             .then(csvText => {
@@ -405,12 +346,12 @@
 
                 cont.innerHTML = '';
 
+                // BÚSQUEDA
                 if (searchFiltro) {
                     tit.innerText = `Resultados para: "${searchFiltro}"`;
                     btnHomeCatalog.style.display = "inline-block";
                     
                     const query = normalizeText(searchFiltro);
-                    
                     const productosFiltrados = productosActivos.filter(p => {
                         const nombreProd = normalizeText(p.nombre);
                         const caracProd = normalizeText(p.caracteristicas);
@@ -428,7 +369,6 @@
                         });
 
                         let currentCategory = "";
-
                         productosFiltrados.forEach(p => {
                             const catP = p.rutas_array.length > 0 ? p.rutas_array[0].split('>')[0].trim() : "Otros";
                             if (catP !== currentCategory) {
@@ -438,7 +378,22 @@
                             cont.innerHTML += generarHTMLProducto(p);
                         });
                     }
-                } else if (catFiltro && subFiltro) {
+                } 
+                // TODOS LOS PRODUCTOS
+                else if (allFiltro) {
+                    tit.innerText = "Todos los Productos";
+                    btnHomeCatalog.style.display = "inline-block";
+                    
+                    if (productosActivos.length === 0) {
+                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay productos disponibles actualmente.</p>`;
+                    } else {
+                        productosActivos.forEach(p => {
+                            cont.innerHTML += generarHTMLProducto(p);
+                        });
+                    }
+                }
+                // SUBCATEGORÍA ESPECÍFICA
+                else if (catFiltro && subFiltro) {
                     tit.innerText = `${catFiltro} / ${subFiltro}`;
                     btnHomeCatalog.style.display = "inline-block";
                     btnBack.style.display = "inline-block";
@@ -454,26 +409,82 @@
                             cont.innerHTML += generarHTMLProducto(p);
                         });
                     }
-                } else if (catFiltro) {
+                } 
+                // CATEGORÍA (Muestra Subcategorías + Productos)
+                else if (catFiltro) {
                     tit.innerText = catFiltro;
                     btnHomeCatalog.style.display = "inline-block";
-                    btnBack.style.display = "none";
+                    btnBack.style.display = "inline-block";
+                    btnBack.href = window.location.pathname; 
+                    btnBack.innerText = "← Volver a Categorías";
                     
-                    // --- AQUÍ EMPIEZA LA CORRECCIÓN DEL CÓDIGO CORTADO ---
+                    // Encontrar subcategorías de esta categoría
+                    const subcategoriasUnicas = new Set();
+                    productosActivos.forEach(p => {
+                        p.rutas_array.forEach(ruta => {
+                            const partes = ruta.split('>').map(x => x.trim());
+                            if (normalizeText(partes[0]) === normalizeText(catFiltro)) {
+                                if (partes.length > 1 && partes[1]) {
+                                    subcategoriasUnicas.add(partes[1]);
+                                }
+                            }
+                        });
+                    });
+
+                    // Renderizar tarjetas de subcategorías
+                    if (subcategoriasUnicas.size > 0) {
+                        const subArray = Array.from(subcategoriasUnicas).sort();
+                        subArray.forEach(sub => {
+                            const img = getImagenSubcategoria(sub);
+                            cont.innerHTML += `
+                                <a href="?cat=${encodeURIComponent(catFiltro)}&sub=${encodeURIComponent(sub)}" class="card" style="text-decoration:none;">
+                                    <img src="${img}" alt="${sub}" onerror="this.src='https://via.placeholder.com/280x180?text=Sin+Imagen'">
+                                    <div class="card-body" style="justify-content: center; align-items: center; padding: 10px;">
+                                        <h3 style="margin:0; color: #4d82bc;">📂 ${sub}</h3>
+                                    </div>
+                                </a>
+                            `;
+                        });
+                    }
+
+                    // Renderizar productos de esta categoría
                     const productosFiltrados = productosActivos.filter(p => perteneceARuta(p, catFiltro, null));
-                    
-                    if (productosFiltrados.length === 0) {
+                    if (productosFiltrados.length === 0 && subcategoriasUnicas.size === 0) {
                         cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay productos disponibles en esta categoría actualmente.</p>`;
                     } else {
                         productosFiltrados.forEach(p => {
                             cont.innerHTML += generarHTMLProducto(p);
                         });
                     }
-                } else {
-                    // Carga principal: Si no hay filtros, muestra todos los productos.
+                } 
+                // VISTA POR DEFECTO: MUESTRA CATEGORÍAS PRINCIPALES
+                else {
+                    tit.innerText = "Categorías Principales";
+                    const categoriasUnicas = new Set();
+                    
                     productosActivos.forEach(p => {
-                        cont.innerHTML += generarHTMLProducto(p);
+                        p.rutas_array.forEach(ruta => {
+                            const cat = ruta.split('>')[0].trim();
+                            if (cat) categoriasUnicas.add(cat);
+                        });
                     });
+
+                    if (categoriasUnicas.size === 0) {
+                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay productos ni categorías disponibles.</p>`;
+                    } else {
+                        const categoriasArray = Array.from(categoriasUnicas).sort();
+                        categoriasArray.forEach(cat => {
+                            const img = getImagenCategoria(cat);
+                            cont.innerHTML += `
+                                <a href="?cat=${encodeURIComponent(cat)}" class="card" style="text-decoration:none;">
+                                    <img src="${img}" alt="${cat}" onerror="this.src='https://via.placeholder.com/280x180?text=Sin+Imagen'">
+                                    <div class="card-body" style="justify-content: center; align-items: center; padding: 10px;">
+                                        <h3 style="margin:0; color: #0056b3;">📁 ${cat}</h3>
+                                    </div>
+                                </a>
+                            `;
+                        });
+                    }
                 }
             })
             .catch(error => {
