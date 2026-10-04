@@ -82,11 +82,18 @@
         h1 { text-align: center; margin-bottom: 15px; color: #111; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
 
         .search-container { display: flex; justify-content: center; margin-bottom: 30px; }
-        .search-container form { display: flex; width: 100%; max-width: 600px; gap: 10px; }
-        .search-input { flex-grow: 1; padding: 12px 15px; border: 2px solid #ccc; border-radius: 6px; font-size: 1rem; outline: none; transition: border-color 0.2s; background: rgba(255,255,255,0.9); }
+        
+        /* Ajuste: max-width aumentado a 700px y flex-wrap para que los botones se adapten en móviles */
+        .search-container form { display: flex; width: 100%; max-width: 700px; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .search-input { flex-grow: 1; padding: 12px 15px; border: 2px solid #ccc; border-radius: 6px; font-size: 1rem; outline: none; transition: border-color 0.2s; background: rgba(255,255,255,0.9); min-width: 200px; }
         .search-input:focus { border-color: #0056b3; }
+        
         .search-btn { background: #0056b3; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: background 0.2s; }
         .search-btn:hover { background: #004494; }
+        
+        /* ESTILO PARA EL NUEVO BOTÓN */
+        .btn-all { background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: background 0.2s; white-space: nowrap; }
+        .btn-all:hover { background: #5a6268; }
         
         .cat-header { grid-column: 1 / -1; margin-top: 20px; margin-bottom: 5px; border-bottom: 2px solid #0056b3; padding-bottom: 8px; color: #0056b3; font-size: 1.5rem; text-align: left; }
 
@@ -159,6 +166,8 @@
             <form id="search-form">
                 <input type="text" id="search-input" class="search-input" placeholder="Buscar producto o característica..." autocomplete="off">
                 <button type="submit" class="search-btn">🔍 Buscar</button>
+                <!-- BOTÓN DE TODOS LOS PRODUCTOS -->
+                <button type="button" class="btn-all" onclick="window.location.href=window.location.pathname">📋 Todos los productos</button>
             </form>
         </div>
 
@@ -355,6 +364,35 @@
             document.getElementById('search-input').value = searchFiltro;
         }
 
+        // Función auxiliar para renderizar un producto para evitar repetir código (OPCIONAL/MEJORA)
+        function generarHTMLProducto(p) {
+            const htmlSpecs = p.caracteristicas ? `<p class="caracteristicas-text">${formatDisplaySpecs(p.caracteristicas)}</p>` : '';
+            const btnOficial = p.url_oficial ? `<a href="${p.url_oficial}" target="_blank" class="btn-ext btn-brand">🌐 Ref/Especificaciones</a>` : '';
+            const btnCanva = p.url_canva ? `<a href="${p.url_canva}" target="_blank" class="btn-ext btn-canva">🎬 Conoce más!</a>` : '';
+
+            return `
+                <div class="card">
+                    <img src="${p.imagen_url}" onerror="this.src='https://via.placeholder.com/280x180?text=Sin+Imagen'">
+                    <div class="card-body">
+                        <div>
+                            <h3>${p.nombre}</h3>
+                            ${htmlSpecs}
+                        </div>
+                        <div>
+                            <div class="precio-box">
+                                <span class="precio-ref">Precio: $${p.precio_referencial.toFixed(0)}</span>
+                                <span class="precio-out">Outlet: $${p.precio_outlet.toFixed(0)}</span>
+                            </div>
+                            <div class="extra-links">
+                                ${btnOficial}
+                                ${btnCanva}
+                            </div>
+                            <a href="https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(p.mensaje_compra)}" class="btn-wa" target="_blank">Lo quiero!</a>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
         fetch(CSV_URL + "&nocache=" + new Date().getTime())
             .then(res => res.text())
             .then(csvText => {
@@ -397,32 +435,7 @@
                                 cont.innerHTML += `<h2 class="cat-header">📁 ${catP}</h2>`;
                                 currentCategory = catP;
                             }
-
-                            const htmlSpecs = p.caracteristicas ? `<p class="caracteristicas-text">${formatDisplaySpecs(p.caracteristicas)}</p>` : '';
-                            const btnOficial = p.url_oficial ? `<a href="${p.url_oficial}" target="_blank" class="btn-ext btn-brand">🌐 Ref/Especificaciones</a>` : '';
-                            const btnCanva = p.url_canva ? `<a href="${p.url_canva}" target="_blank" class="btn-ext btn-canva">🎬 Conoce más!</a>` : '';
-
-                            cont.innerHTML += `
-                                <div class="card">
-                                    <img src="${p.imagen_url}" onerror="this.src='https://via.placeholder.com/280x180?text=Sin+Imagen'">
-                                    <div class="card-body">
-                                        <div>
-                                            <h3>${p.nombre}</h3>
-                                            ${htmlSpecs}
-                                        </div>
-                                        <div>
-                                            <div class="precio-box">
-                                                <span class="precio-ref">Precio: $${p.precio_referencial.toFixed(0)}</span>
-                                                <span class="precio-out">Outlet: $${p.precio_outlet.toFixed(0)}</span>
-                                            </div>
-                                            <div class="extra-links">
-                                                ${btnOficial}
-                                                ${btnCanva}
-                                            </div>
-                                            <a href="https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(p.mensaje_compra)}" class="btn-wa" target="_blank">Lo quiero!</a>
-                                        </div>
-                                    </div>
-                                </div>`;
+                            cont.innerHTML += generarHTMLProducto(p);
                         });
                     }
                 } else if (catFiltro && subFiltro) {
@@ -438,31 +451,7 @@
                         cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay productos disponibles en esta sección actualmente.</p>`;
                     } else {
                         productosFiltrados.forEach(p => {
-                            const htmlSpecs = p.caracteristicas ? `<p class="caracteristicas-text">${formatDisplaySpecs(p.caracteristicas)}</p>` : '';
-                            const btnOficial = p.url_oficial ? `<a href="${p.url_oficial}" target="_blank" class="btn-ext btn-brand">🌐 Ref/Especificaciones</a>` : '';
-                            const btnCanva = p.url_canva ? `<a href="${p.url_canva}" target="_blank" class="btn-ext btn-canva">🎬 Conoce más!</a>` : '';
-
-                            cont.innerHTML += `
-                                <div class="card">
-                                    <img src="${p.imagen_url}" onerror="this.src='https://via.placeholder.com/280x180?text=Sin+Imagen'">
-                                    <div class="card-body">
-                                        <div>
-                                            <h3>${p.nombre}</h3>
-                                            ${htmlSpecs}
-                                        </div>
-                                        <div>
-                                            <div class="precio-box">
-                                                <span class="precio-ref">Precio: $${p.precio_referencial.toFixed(0)}</span>
-                                                <span class="precio-out">Outlet: $${p.precio_outlet.toFixed(0)}</span>
-                                            </div>
-                                            <div class="extra-links">
-                                                ${btnOficial}
-                                                ${btnCanva}
-                                            </div>
-                                            <a href="https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(p.mensaje_compra)}" class="btn-wa" target="_blank">Lo quiero!</a>
-                                        </div>
-                                    </div>
-                                </div>`;
+                            cont.innerHTML += generarHTMLProducto(p);
                         });
                     }
                 } else if (catFiltro) {
@@ -470,74 +459,26 @@
                     btnHomeCatalog.style.display = "inline-block";
                     btnBack.style.display = "none";
                     
-                    const subsDisponibles = new Map();
-                    productosActivos.forEach(p => {
-                        p.rutas_array.forEach(ruta => {
-                            const partes = ruta.split('>').map(x => x.trim());
-                            if (partes[0] && normalizeText(partes[0]) === normalizeText(catFiltro) && partes[1]) {
-                                const subOriginal = partes[1];
-                                const subNorm = normalizeText(subOriginal);
-                                if (!subsDisponibles.has(subNorm)) {
-                                    subsDisponibles.set(subNorm, subOriginal);
-                                }
-                            }
-                        });
-                    });
-
-                    if (subsDisponibles.size === 0) {
-                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay subcategorías con stock disponible.</p>`;
+                    // --- AQUÍ EMPIEZA LA CORRECCIÓN DEL CÓDIGO CORTADO ---
+                    const productosFiltrados = productosActivos.filter(p => perteneceARuta(p, catFiltro, null));
+                    
+                    if (productosFiltrados.length === 0) {
+                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay productos disponibles en esta categoría actualmente.</p>`;
                     } else {
-                        subsDisponibles.forEach(s => {
-                            const imgFija = getImagenSubcategoria(s);
-                            cont.innerHTML += `
-                                <a href="?cat=${encodeURIComponent(catFiltro)}&sub=${encodeURIComponent(s)}" class="card">
-                                    <img src="${imgFija}" onerror="this.src='https://via.placeholder.com/280x180?text=${encodeURIComponent(s)}'">
-                                    <div class="card-body">
-                                        <h3>${s}</h3>
-                                        <p style="color:#0056b3; font-weight:bold;">Ver productos →</p>
-                                    </div>
-                                </a>`;
+                        productosFiltrados.forEach(p => {
+                            cont.innerHTML += generarHTMLProducto(p);
                         });
                     }
                 } else {
-                    tit.innerText = "Algo que te sorprende, siempre!";
-                    btnHomeCatalog.style.display = "none";
-                    btnBack.style.display = "none";
-
-                    const categoriasDisponibles = new Map();
+                    // Carga principal: Si no hay filtros, muestra todos los productos.
                     productosActivos.forEach(p => {
-                        p.rutas_array.forEach(ruta => {
-                            const partes = ruta.split('>').map(x => x.trim());
-                            if (partes[0]) {
-                                const catOriginal = partes[0];
-                                const catNorm = normalizeText(catOriginal);
-                                if (!categoriasDisponibles.has(catNorm)) {
-                                    categoriasDisponibles.set(catNorm, catOriginal);
-                                }
-                            }
-                        });
+                        cont.innerHTML += generarHTMLProducto(p);
                     });
-
-                    if (categoriasDisponibles.size === 0) {
-                        cont.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">No hay categorías con stock disponible.</p>`;
-                    } else {
-                        categoriasDisponibles.forEach(cat => {
-                            const imgFija = getImagenCategoria(cat);
-                            cont.innerHTML += `
-                                <a href="?cat=${encodeURIComponent(cat)}" class="card">
-                                    <img src="${imgFija}" onerror="this.src='https://via.placeholder.com/280x180?text=${encodeURIComponent(cat)}'">
-                                    <div class="card-body">
-                                        <h3>${cat}</h3>
-                                        <p style="color:#0056b3; font-weight:bold;">Ver subcategorías →</p>
-                                    </div>
-                                </a>`;
-                        });
-                    }
                 }
             })
             .catch(error => {
-                console.error("Error cargando el catálogo:", error);
-                document.getElementById('contenedor').innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:red;">Hubo un error cargando los productos. Revisa la consola para más detalles.</p>`;
+                console.error("Error al cargar los datos:", error);
+                document.getElementById('contenedor').innerHTML = `<p style="grid-column: 1/-1; text-align:center;">Ocurrió un error al cargar el catálogo. Inténtalo más tarde.</p>`;
             });
     </script>
 </body>
