@@ -7,7 +7,6 @@
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            /* Se usa tu imagen, se hace pequeña y se repite por toda la pantalla */
             background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('./assets/img/logo.jpeg'); 
             background-size: 150px; 
             background-position: center; 
@@ -144,9 +143,7 @@
         const WA_NUMERO = "593964230521"; 
         const CSV_URL = "https://docs.google.com/spreadsheets/d/168Qg4rnF4Kjj0Y8RDKzQYov4ek3t0vrtarHTcc9qVxo/export?format=csv&gid=0";
 
-        // ==========================================
         // DICCIONARIOS DE CATEGORÍAS Y SUBCATEGORÍAS
-        // ==========================================
         const imagenesCategorias = {
             "Hogar & Oficina": "./assets/img/salaofi.jpg",
             "Moda & Calzado": "./assets/img/vestimenta.jpg", 
@@ -522,7 +519,6 @@
                         });
                     }
                 } 
-                // AQUÍ EL FIX: VISTA PRINCIPAL (EL ELSE CORRECTO)
                 else {
                     tit.innerText = "Algo que te sorprende, siempre!";
                     btnHomeCatalog.style.display = "none";
