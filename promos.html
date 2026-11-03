@@ -91,7 +91,7 @@
             flex: 1;
         }
 
-        /* Tarjetas de productos (Estilo tipo catálogo) */
+        /* Tarjetas de productos (Estilo tipo catálogo para PC) */
         .hero {
             display: flex;
             flex-wrap: wrap;
@@ -175,14 +175,18 @@
         /* AJUSTES ESPECÍFICOS PARA MÓVILES (Pantallas menores a 768px) */
         @media screen and (max-width: 768px) {
             main {
-                margin-top: 110px; /* Evita que el header fijo tape el inicio */
+                margin-top: 110px;
             }
             .hero {
-                padding: 1.25rem; /* Reduce el espacio interno para que no ahogue el contenido */
+                padding: 1.25rem;
                 gap: 1.5rem;
+                /* TARJETAS TRANSPARENTES EN MÓVIL PARA VER EL FONDO */
+                background-color: transparent; 
+                backdrop-filter: none;
+                box-shadow: none;
             }
             .hero-text h1, .hero-text h2 {
-                font-size: 1.5rem; /* Títulos más compactos en celulares */
+                font-size: 1.5rem;
             }
             .hero-text p {
                 font-size: 0.95rem;
