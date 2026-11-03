@@ -7,17 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #ffffff;         /* Fondo principal (Blanco) */
-            --text-color: #000000;       /* Texto principal (Negro) */
-            --accent-color: #4d82bc;     /* NUEVO COLOR AZUL */
-            --header-bg: #000000;        /* Fondo del menú superior */
-            --header-text: #ffffff;      /* Texto del menú superior */
-            --btn-bg: #000000;           /* Fondo de botones */
-            --btn-text: #ffffff;         /* Texto de botones */
+            --bg-color: #ffffff;         
+            --text-color: #000000;       
+            --accent-color: #4d82bc;     
+            --header-bg: #000000;        
+            --header-text: #ffffff;      
+            --btn-bg: #000000;           
+            --btn-text: #ffffff;         
         }
 
         html {
-            scroll-behavior: smooth;     
+            scroll-behavior: smooth;    
             scroll-padding-top: 100px;   
         }
 
@@ -35,16 +35,23 @@
             background-position: center; 
             background-attachment: fixed; 
             background-repeat: no-repeat; 
-            
             background-color: rgba(255, 255, 255, 0.85); 
             background-blend-mode: lighten; 
-            
             padding: 20px; 
             color: #333; 
             min-height: 100vh;
             margin: 0;
             display: flex;
             flex-direction: column;
+        }
+
+        /* Corrección responsiva para móviles y tablets: evita fallos con fixed y adapta la escala */
+        @media screen and (max-width: 1024px) {
+            body {
+                background-attachment: scroll; 
+                background-size: contain; 
+                background-position: center center;
+            }
         }
 
         a {
@@ -67,7 +74,7 @@
             margin-top: 2px;
         }
 
-           .navbar-nav .nav-link {
+        .navbar-nav .nav-link {
             transition: color 0.3s;
             font-size: 1.1rem;
         }
@@ -76,26 +83,35 @@
             color: var(--accent-color) !important;
         }
     
+        main {
+            max-width: 1100px;
+            margin: 100px auto 40px auto; /* Margen superior para despegar del header fijo */
+            width: 100%;
+            flex: 1;
+        }
+
+        /* CORRECCIÓN CLAVE: Las secciones actúan como tarjetas centradas sobre el fondo */
         .hero {
             display: flex;
             flex-wrap: wrap;
-            padding: 4rem 5%;
+            padding: 2.5rem;
             align-items: center;
-            gap: 3rem;
-            background-color: rgba(249, 249, 249, 0.5);
-        }
-        
-        .hero.bg-white {
-            background-color: rgba(255, 255, 255, 0.5; 
+            gap: 2.5rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            backdrop-filter: blur(4px);
+            width: 100%;
         }
 
         .hero-text {
             flex: 1;
-            min-width: 300px;
+            min-width: 280px;
         }
 
         .hero-text h1, .hero-text h2 {
-            font-size: 3rem;
+            font-size: 2.2rem;
             margin-bottom: 1rem;
             line-height: 1.2;
         }
@@ -113,14 +129,14 @@
 
         .hero-media {
             flex: 1;
-            min-width: 300px;
+            min-width: 280px;
             display: flex;
             justify-content: center;
         }
 
         .media-placeholder {
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
             height: auto;
             background-color: #e0e0e0;
             border-radius: 15px;
@@ -155,6 +171,14 @@
             color: var(--btn-bg);
         }
 
+        /* FOOTER */
+        .bg-dark { background-color: #212529; }
+        .text-white { color: #ffffff; }
+        .text-center { text-align: center; }
+        .py-4 { padding: 1.5rem 0; }
+        .text-white-50 { color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; }
+        
+        footer { margin-top: auto; }
         .hanna-footer-layout {
             display: flex;
             flex-direction: column;
@@ -220,7 +244,7 @@
 
     <main>
         <!-- 1. Video 1: RAZZA -->
-        <section class="hero bg-white">
+        <section class="hero">
             <div class="hero-media">
                 <div class="media-placeholder">
                     <video autoplay loop muted playsinline>
@@ -245,7 +269,7 @@
         </section>
 
         <!-- 2. Video 2: FUTSAL -->
-        <section class="hero bg-white">
+        <section class="hero">
             <div class="hero-media">
                 <div class="media-placeholder">
                     <video autoplay loop muted playsinline>
@@ -267,7 +291,7 @@
         </section>
 
         <!-- 3. Video 3: Gorra P#3 -->
-        <section class="hero bg-white">
+        <section class="hero">
             <div class="hero-media">
                 <div class="media-placeholder">
                     <video autoplay loop muted playsinline>
@@ -288,7 +312,7 @@
         </section>
 
         <!-- 4. Video 4: Réplica Forum -->
-        <section class="hero bg-white">
+        <section class="hero">
             <div class="hero-media">
                 <div class="media-placeholder">
                     <video autoplay loop muted playsinline>
@@ -309,7 +333,7 @@
         </section>
 
         <!-- 5. Video 5: Bunky -->
-        <section class="hero bg-white">
+        <section class="hero">
             <div class="hero-media">
                 <div class="media-placeholder">
                     <video autoplay loop muted playsinline>
@@ -333,7 +357,7 @@
     <footer class="bg-dark text-white text-center py-4">
         <div class="container">
             <div class="hanna-footer-layout">
-                <span class="text-white-50">&copy; Desarrollado con enfoques smart & bootstrapped by</span>
+                <span class="text-white-50">© Desarrollado con enfoques smart & bootstrapped by</span>
                 
                 <a href="https://www.linkedin.com/in/carla-cumba-1831a73b4" target="_blank" rel="noopener noreferrer" class="hanna-link-block" title="Visitar perfil de Carla Cumba en LinkedIn">
                     <div class="hanna-circle-frame">
